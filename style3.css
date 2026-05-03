@@ -1,0 +1,493 @@
+:root {
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --menu: #334155;
+    --menu-hover: #475569;
+    --accent: #dc2626;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #cbd5e1;
+    --radius: 8px;
+    --space: 16px;
+    --font: Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 12px;
+    line-height: 1.6;
+}
+
+h1 {
+    color: var(--menu);
+    margin-bottom: 6px;
+}
+
+h2 {
+    color: var(--muted);
+    margin-bottom: var(--space);
+}
+
+h3 {
+    margin-top: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: var(--space);
+    color: var(--muted);
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    margin: 16px 0;
+}
+
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--menu);
+    padding: 12px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+}
+
+.main-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    display: block;
+}
+
+.main-menu a:hover {
+    background-color: var(--menu-hover);
+}
+
+#homeLink {
+    border-left: 3px solid var(--accent);
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+}
+
+table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+}
+
+th,
+td {
+    border: 1px solid var(--border);
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: var(--menu);
+    color: white;
+    white-space: nowrap;
+}
+
+td {
+    color: var(--muted);
+}
+
+tr:hover td {
+    background-color: #f1f5f9;
+}
+
+td table {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+ul,
+ol {
+    margin: 8px 0 8px 24px;
+}
+
+form {
+    max-width: 100%;
+    margin: 24px 0;
+}
+
+fieldset {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    background-color: var(--card);
+}
+
+legend {
+    padding: 6px 12px;
+    background-color: var(--menu);
+    color: white;
+    border-radius: var(--radius);
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: white;
+    color: var(--text);
+    font-family: var(--font);
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+input[readonly] {
+    background-color: #f1f5f9;
+}
+
+input[disabled] {
+    background-color: #e2e8f0;
+    color: #94a3b8;
+}
+
+input[type="submit"],
+input[type="reset"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input[type="submit"] {
+    background-color: var(--accent);
+    color: white;
+}
+
+input[type="submit"]:hover {
+    background-color: #b91c1c;
+}
+
+input[type="reset"] {
+    background-color: var(--menu);
+    color: white;
+}
+
+input[type="reset"]:hover {
+    background-color: var(--menu-hover);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    accent-color: var(--accent);
+}
+
+form p {
+    margin-bottom: var(--space);
+}
+
+form b {
+    display: block;
+    margin-bottom: 6px;
+}
+
+h3::before {
+    content: "# ";
+    color: var(--accent);
+}
+
+legend::after {
+    content: " >";
+}
+
+span[title] {
+    color: var(--muted);
+}
+
+strong {
+    color: var(--text);
+}
+
+body > h3:last-child {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9em;
+}
+
+body > h3:last-child::before {
+    content: "";
+}
+
+/* MODIFICAT: stiluri noi pentru carousel */
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 700px;
+    margin: 24px auto;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    background-color: var(--card);
+}
+
+.carousel-slide {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.carousel-slide a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+
+.carousel-overlay {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.2));
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+}
+
+.carousel-overlay h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.7em;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.carousel-btn.prev {
+    left: 12px;
+}
+
+.carousel-btn.next {
+    right: 12px;
+}
+
+@media (min-width: 700px) {
+    body {
+        padding: 20px 24px;
+    }
+
+    .main-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+        width: auto;
+        padding: 10px 18px;
+        margin-right: 8px;
+    }
+
+    select {
+        width: auto;
+        min-width: 200px;
+    }
+
+    form {
+        max-width: 700px;
+    }
+}
+
+@media (min-width: 1024px) {
+    body {
+        padding: 24px 60px;
+    }
+
+    table {
+        min-width: 0;
+    }
+
+    form {
+        margin: 24px auto;
+    }
+}
+
+
+/* MODIFICAT: SORTARE TABEL */
+
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+/* simbol mic ca se poate sorta */
+.sortable::after {
+    content: " ⇅";
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+/* coloana sortata crescator */
+.sorted-asc {
+    background-color: #1e293b !important;
+}
+
+.sorted-asc::after {
+    content: " ↑";
+    color: #facc15;
+}
+
+/* coloana sortata descrescator */
+.sorted-desc {
+    background-color: #1e293b !important;
+}
+
+.sorted-desc::after {
+    content: " ↓";
+    color: #facc15;
+}
+
+
+.sortable-vertical {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sortable-vertical::after {
+    content: " ⇅";
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+
+/* MODIFICAT: liste colapsabile   */
+.nested-list .sublist {
+    display: none;
+    margin-top: 8px;
+}
+
+.nested-list .expandable > .toggle-label {
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text);
+    position: relative;
+    display: inline-block;
+    padding-left: 18px;
+}
+
+.nested-list .expandable > .toggle-label::before {
+    content: "▶";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 0.8em;
+    color: var(--accent);
+}
+
+.nested-list .expandable.open > .toggle-label::before {
+    content: "▼";
+}
+
+.nested-list .expandable.open > .sublist {
+    display: block;
+}
+
+
+
+/*estimator pret*/
+
+.estimator-box {
+    max-width: 700px;
+    margin: 24px auto;
+    padding: 20px;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.estimator-box h3 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    color: var(--text);
+}
+
+.estimator-box p {
+    margin-bottom: 10px;
+    color: var(--muted);
+}
+
+.estimator-box span {
+    color: var(--text);
+    font-weight: bold;
+}
+
+#estimateBtn {
+    margin-top: 10px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: var(--radius);
+    background-color: var(--accent);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#estimateBtn:hover {
+    background-color: #b91c1c;
+}

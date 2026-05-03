@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameMarket - Games &amp; Deals</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+
+<h1>GameMarket</h1>
+<h2>Games &amp; Digital Deals</h2>
+
+<p>
+    <b>The best place</b> for digital game keys at fair prices.
+    <br>
+    <span title="Tagline">Buy safely, deliver instantly.</span>
+</p>
+
+<div class="main-menu">
+    <a href="listing.html" id="homeLink" target="_self" title="Home">Home</a>
+    <a href="forum.html" id="forumLink" target="_self" title="Community forum">Forum</a>
+    <a href="#filter" id="gotoFilter" target="_self" title="Filter games">Filter Games</a>
+    <a href="widgets.html" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+</div>
+
+<br>
+
+<img
+        src="images/logo.png"
+        width="200"
+        height="80"
+        alt="GameMarket Logo"
+        title="GameMarket - official logo">
+
+<br><br>
+
+<div class="carousel" id="carousel">
+    <button class="carousel-btn prev" id="prevBtn">&lt;</button>
+
+    <div class="carousel-slide" id="carouselSlide">
+        <a id="carouselLink" href="#" target="_self" title="Vezi oferta">
+            <div class="carousel-overlay">
+                <h3 id="carouselText"></h3>
+            </div>
+        </a>
+    </div>
+
+    <button class="carousel-btn next" id="nextBtn">&gt;</button>
+</div>
+
+<div class="table-wrap">
+    <table>
+        <tr>
+            <th colspan="3">Weekly Deals</th>
+        </tr>
+        <tr>
+            <td><strong>Up to -70%</strong><br><span title="Category">AAA Games</span></td>
+            <td><strong>Instant Delivery</strong><br><span title="Delivery type">24/7 automated</span></td>
+            <td><strong>30-day Guarantee</strong><br><span title="Guarantee">Verified keys</span></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span title="Terms">*Ofertele sunt valabile în limita stocului disponibil. Se aplică termenii generali.</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<br>
+
+<div class="table-wrap">
+    <table>
+        <tr>
+            <th colspan="5">Available Games</th>
+        </tr>
+        <tr>
+            <th>Game Title</th>
+            <th>Platform</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Details</th>
+        </tr>
+
+        <tr id="elden-ring">
+            <td>
+                <strong>Elden Ring</strong><br>
+                <span title="Developer">FromSoftware</span><br>
+                <b>Gen:</b> RPG / Action
+            </td>
+            <td>Steam</td>
+            <td><strong>89.99 RON</strong></td>
+            <td><span title="In stock">Disponibil</span></td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2">Product Info</th>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td>Global</td>
+                    </tr>
+                    <tr>
+                        <td>Delivery</td>
+                        <td>Instant</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>5 / 5</td>
+                    </tr>
+                    <tr>
+                        <td>Seller</td>
+                        <td>TopKeys_RO</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr id="cyberpunk-2077">
+            <td>
+                <strong>Cyberpunk 2077</strong><br>
+                <span title="Developer">CD Projekt Red</span><br>
+                <b>Gen:</b> RPG / Open World
+            </td>
+            <td>Steam</td>
+            <td><strong>59.99 RON</strong></td>
+            <td><span title="Low stock">Stoc redus</span></td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2">Product Info</th>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td>EU</td>
+                    </tr>
+                    <tr>
+                        <td>Delivery</td>
+                        <td>Instant</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>4 / 5</td>
+                    </tr>
+                    <tr>
+                        <td>Seller</td>
+                        <td>GameDeals24</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr id="fifa-25">
+            <td rowspan="2">
+                <strong>FIFA 25</strong><br>
+                <span title="Developer">EA Sports</span><br>
+                <b>Gen:</b> Sports
+            </td>
+            <td>EA App</td>
+            <td><strong>149.99 RON</strong></td>
+            <td><span title="In stock">Disponibil</span></td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2">Product Info</th>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td>Global</td>
+                    </tr>
+                    <tr>
+                        <td>Delivery</td>
+                        <td>Instant</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>3 / 5</td>
+                    </tr>
+                    <tr>
+                        <td>Seller</td>
+                        <td>KeysMarket</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <span title="Edition note">Disponibil și: <strong>Ultimate Edition</strong> &mdash; 199.99 RON</span>
+            </td>
+        </tr>
+
+        <tr id="witcher-3">
+            <td>
+                <strong>The Witcher 3</strong><br>
+                <span title="Developer">CD Projekt Red</span><br>
+                <b>Gen:</b> RPG / Adventure
+            </td>
+            <td>GOG</td>
+            <td><strong>39.99 RON</strong></td>
+            <td><span title="In stock">Disponibil</span></td>
+            <td>
+                <table>
+                    <tr>
+                        <th colspan="2">Product Info</th>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td>Global</td>
+                    </tr>
+                    <tr>
+                        <td>Delivery</td>
+                        <td>Instant</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>5 / 5</td>
+                    </tr>
+                    <tr>
+                        <td>Seller</td>
+                        <td>GOGstore</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+<br>
+
+<div class="table-wrap">
+    <table>
+        <tr>
+            <th colspan="3">Browse by Category</th>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <b>După Gen:</b>
+
+                <ul class="nested-list">
+                    <li>Action / Adventure</li>
+                    <li>RPG</li>
+                    <li>Sports</li>
+                    <li class="expandable">
+                        <span class="toggle-label">Strategie</span>
+                        <ul class="sublist">
+                            <li>Turn-based</li>
+                            <li>Real-time (RTS)</li>
+                        </ul>
+                    </li>
+                    <li class="expandable">
+                        <span class="toggle-label">Simulare</span>
+                        <ul class="sublist">
+                            <li>Racing</li>
+                            <li>City Builder</li>
+                            <li>Life Simulation</li>
+                        </ul>
+                    </li>
+                </ul>
+            </td>
+
+            <td>
+                <b>După Platformă:</b>
+
+                <ol type="A" start="1" class="nested-list">
+                    <li>Steam</li>
+                    <li>Epic Games</li>
+                    <li class="expandable">
+                        <span class="toggle-label">Console</span>
+                        <ol class="sublist">
+                            <li>PlayStation (PSN)</li>
+                            <li>Xbox / Game Pass</li>
+                        </ol>
+                    </li>
+                    <li>GOG</li>
+                </ol>
+            </td>
+
+            <td>
+                <b>După Regiune:</b>
+
+                <ol type="I" start="1" class="nested-list">
+                    <li class="expandable">
+                        <span class="toggle-label">Global</span>
+                        <ol type="i" start="1" class="sublist">
+                            <li>Worldwide</li>
+                            <li>Multi-region</li>
+                        </ol>
+                    </li>
+                    <li class="expandable">
+                        <span class="toggle-label">Europa (EU)</span>
+                        <ol type="i" start="1" class="sublist">
+                            <li>Romania</li>
+                            <li>Germany</li>
+                            <li>France</li>
+                        </ol>
+                    </li>
+                    <li>America de Nord (US)</li>
+                    <li>România (RO)</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span title="Delivery note">Toate produsele sunt livrate digital, direct în contul tău.</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<br>
+
+<span id="filter"></span>
+<form action="#" method="post" name="listingForm" id="listingForm">
+    <fieldset>
+        <legend>Filtrează &amp; Cumpără</legend>
+
+        <p>
+            <b>Caută jocul:</b><br>
+            <input
+                    type="text"
+                    name="search"
+                    id="searchGame"
+                    value=""
+                    size="45"
+                    maxlength="100"
+                    title="Scrie numele jocului">
+        </p>
+
+        <p>
+            <b>Preț maxim (RON):</b><br>
+            <input
+                    type="number"
+                    name="max_price"
+                    id="maxPrice"
+                    value="200"
+                    min="0"
+                    max="9999"
+                    step="1"
+                    title="Prețul maxim acceptat">
+        </p>
+
+        <p>
+            <b>Platformă:</b><br>
+            <select name="platform_filter" id="platformFilter" title="Filtrează după platformă" size="1">
+                <option value="all" selected>Toate platformele</option>
+                <option value="steam">Steam</option>
+                <option value="epic">Epic Games</option>
+                <option value="psn">PlayStation (PSN)</option>
+                <option value="xbox">Xbox</option>
+                <option value="gog">GOG</option>
+            </select>
+        </p>
+
+        <p>
+            <b>Gen (selecție multiplă):</b><br>
+            <select name="genre" id="genreSelect" multiple size="5" title="Alege unul sau mai multe genuri">
+                <option value="action" selected>Action / Adventure</option>
+                <option value="rpg">RPG</option>
+                <option value="sports">Sport</option>
+                <option value="strategy">Strategie</option>
+                <option value="simulation">Simulare</option>
+                <option value="horror">Horror</option>
+            </select>
+        </p>
+
+        <p>
+            <b>Regiune:</b><br>
+            <input type="radio" name="region_filter" value="global" checked title="Jocuri globale"> Global
+            &nbsp;
+            <input type="radio" name="region_filter" value="eu" title="Europa"> EU
+            &nbsp;
+            <input type="radio" name="region_filter" value="us" title="SUA"> US
+            &nbsp;
+            <input type="radio" name="region_filter" value="ro" title="Romania"> RO
+        </p>
+
+        <p>
+            <b>Tip livrare:</b><br>
+            <input type="checkbox" name="instant" id="instantDelivery" value="yes" checked title="Livrare instantanee"> Livrare instantanee
+            &nbsp;
+            <input type="checkbox" name="manual" id="manualDelivery" value="yes" title="Livrare manuală"> Livrare manuală
+        </p>
+
+        <p>
+            <b>Evaluare minimă vânzător:</b><br>
+            <input type="radio" name="seller_rating" value="any" checked title="Orice evaluare"> Oricare
+            &nbsp;
+            <input type="radio" name="seller_rating" value="good" title="Evaluare bună"> Bună (4+)
+            &nbsp;
+            <input type="radio" name="seller_rating" value="excellent" title="Evaluare excelentă"> Excelentă (5)
+        </p>
+
+        <p>
+            <b>Cod promoțional:</b><br>
+            <input
+                    type="text"
+                    name="promo_code"
+                    id="promoCode"
+                    value=""
+                    size="20"
+                    maxlength="20"
+                    title="Introdu codul promoțional dacă îl ai">
+        </p>
+
+        <p>
+            <b>ID comandă anterioară (doar citire):</b><br>
+            <input
+                    type="text"
+                    name="prev_order"
+                    value="ORD-2026-00000"
+                    size="20"
+                    maxlength="20"
+                    readonly
+                    title="ID comandă anterioară">
+        </p>
+
+        <p>
+            <b>Câmp dezactivat:</b><br>
+            <input
+                    type="text"
+                    name="disabled_field"
+                    value="Indisponibil"
+                    size="20"
+                    maxlength="30"
+                    disabled
+                    title="Câmp dezactivat">
+        </p>
+
+        <p>
+            <b>Notă pentru vânzător:</b><br>
+            <textarea
+                    name="seller_note"
+                    cols="65"
+                    rows="4"
+                    title="Mesaj opțional pentru vânzător">Am nevoie de cheie pentru contul meu Steam din zona EU.
+Vă rog să trimiteți cheia cât mai repede. Mulțumesc anticipat!
+Îmi aștept răspunsul în cel mai scurt timp.</textarea>
+        </p>
+
+        <p>
+            <input type="submit" name="filter" value="Caută Jocuri" title="Aplică filtrele">
+            &nbsp;
+            <input type="submit" name="buy" value="Cumpără Acum" title="Mergi la checkout">
+            &nbsp;
+            <input type="reset" name="reset" value="Resetează" title="Resetează filtrele">
+        </p>
+    </fieldset>
+</form>
+
+<!-- modificator pret-->
+<div class="estimator-box">
+    <h3>Estimator de preț final</h3>
+
+    <p><strong>Joc detectat:</strong> <span id="estGameName">Neselectat</span></p>
+    <p><strong>Preț bază:</strong> <span id="estBasePrice">0.00 RON</span></p>
+    <p><strong>Reducere promo:</strong> <span id="estDiscount">0.00 RON</span></p>
+    <p><strong>Taxă livrare:</strong> <span id="estDelivery">0.00 RON</span></p>
+    <p><strong>Total final:</strong> <span id="estFinalPrice">0.00 RON</span></p>
+    <p><strong>Status ofertă:</strong> <span id="estStatus">Completează formularul</span></p>
+
+    <button type="button" id="estimateBtn">Calculează oferta</button>
+</div>
+
+<br>
+<h3 title="Footer">GameMarket 2026 &mdash; All rights reserved</h3>
+
+<script src="listing.js"></script>
+<script src="carousel.js"></script>
+<script src="nested-list.js"></script>
+
+<script src="original-feature.js"></script>
+
+</body>
+</html>

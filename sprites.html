@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameMarket - Navigare</title>
+
+    <link rel="stylesheet" href="style3.css">
+    <style>
+        .nav-sprites {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            background-color: var(--card);
+            padding: 12px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .nav-sprites a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: background-color 0.25s, color 0.25s;
+        }
+
+        .nav-sprites a:hover {
+            background-color: var(--accent);
+            color: #fff;
+        }
+
+        .nav-sprites a:first-child {
+            border-left: 3px solid var(--accent);
+        }
+
+        .sectiune {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .sectiune h3 {
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .sectiune p {
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>GameMarket</h1>
+<h2>Navigare &amp; Meniu cu Sprite-uri</h2>
+
+<p>
+    <b>Bine ai venit!</b> Alege o sectiune din meniu sau din cardurile de mai jos.
+    <br>
+    <span title="Info">Iconitele din meniu folosesc sprite-uri CSS.</span>
+</p>
+
+
+<div class="main-menu nav-sprites">
+    <a href="forum.html" id="homeLink" title="Acasa">
+        <span class="sprite sprite-home"></span>
+        Home
+    </a>
+    <a href="forum.html" id="forumLink" title="Forum" target="_self">
+        <span class="sprite sprite-forum"></span>
+        Forum
+    </a>
+    <a href="listing.html" id="listingLink" title="Jocuri si oferte" target="_blank">
+        <span class="sprite sprite-deals"></span>
+        Games &amp; Deals
+    </a>
+    <a href="listing.html#filter" id="filterLink" title="Filtreaza jocuri" target="_self">
+        <span class="sprite sprite-filter"></span>
+        Filter Games
+    </a>
+    <a href="#profil" id="profileLink" title="Profilul meu" target="_self">
+        <span class="sprite sprite-profile"></span>
+        Profil
+    </a>
+</div>
+
+<img
+        src="images/logo.png"
+        width="200"
+        height="80"
+        alt="GameMarket Logo"
+        title="GameMarket - official logo">
+
+<div class="sectiune">
+    <h3>Statistici Forum</h3>
+    <div class="table-wrap">
+        <table>
+            <tr>
+                <th colspan="4">Forum Statistics</th>
+            </tr>
+            <tr>
+                <th>Total Topics</th>
+                <th>Replies Today</th>
+                <th>Active Users</th>
+                <th>Online Now</th>
+            </tr>
+            <tr>
+                <td><strong>1,247</strong></td>
+                <td><strong>38</strong></td>
+                <td><strong>892</strong></td>
+                <td><strong>14</strong></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br>
+<h3 title="Footer">GameMarket 2026 &mdash; Navigare</h3>
+
+</body>
+</html>
