@@ -1,32 +1,30 @@
-function marcheazaInvalid(campId, eroareId) {
-    var camp = document.getElementById(campId);
-    var eroare = document.getElementById(eroareId);
-    if (camp) camp.classList.add("invalid");
-    if (eroare) eroare.classList.add("vizibil");
-}
+$(document).ready(function () {
 
-function marcheazaValid(campId, eroareId) {
-    var camp = document.getElementById(campId);
-    var eroare = document.getElementById(eroareId);
-    if (camp) camp.classList.remove("invalid");
-    if (eroare) eroare.classList.remove("vizibil");
-}
+    function marcheazaInvalid(campId, eroareId) {
+        $("#" + campId).addClass("invalid");
+        if (eroareId) {
+            $("#" + eroareId).addClass("vizibil");
+        }
+    }
 
-function emailValid(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+    function marcheazaValid(campId, eroareId) {
+        $("#" + campId).removeClass("invalid");
+        if (eroareId) {
+            $("#" + eroareId).removeClass("vizibil");
+        }
+    }
 
+    function emailValid(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
 
-var formLogin = document.getElementById("formLogin");
-
-if (formLogin) {
-    formLogin.addEventListener("submit", function (e) {
+    $("#formLogin").on("submit", function (e) {
         e.preventDefault();
         var valid = true;
 
-        document.getElementById("succes-login").classList.remove("vizibil");
+        $("#succes-login").removeClass("vizibil");
 
-        var email = document.getElementById("login-email").value.trim();
+        var email = $("#login-email").val().trim();
         if (!emailValid(email)) {
             marcheazaInvalid("login-email", "err-login-email");
             valid = false;
@@ -34,7 +32,7 @@ if (formLogin) {
             marcheazaValid("login-email", "err-login-email");
         }
 
-        var parola = document.getElementById("login-parola").value;
+        var parola = $("#login-parola").val();
         if (parola.length === 0) {
             marcheazaInvalid("login-parola", "err-login-parola");
             valid = false;
@@ -43,17 +41,12 @@ if (formLogin) {
         }
 
         if (valid) {
-            document.getElementById("succes-login").classList.add("vizibil");
+            $("#succes-login").addClass("vizibil");
         }
     });
-}
 
-
-var inputParola = document.getElementById("parola");
-
-if (inputParola) {
-    inputParola.addEventListener("input", function () {
-        var val = this.value;
+    $("#parola").on("input", function () {
+        var val = $(this).val();
         var putere = 0;
         var label = "";
         var culoare = "";
@@ -80,88 +73,52 @@ if (inputParola) {
             culoare = "#16a34a";
         }
 
-        var bar = document.getElementById("putere-bar");
-        var labelEl = document.getElementById("putere-label");
-
-        if (bar) {
-            bar.style.width = (putere * 25) + "%";
-            bar.style.backgroundColor = culoare;
-        }
-        if (labelEl) {
-            labelEl.textContent = label;
-            labelEl.style.color = culoare;
-        }
+        $("#putere-bar").css("width", (putere * 25) + "%").css("background-color", culoare);
+        $("#putere-label").text(label).css("color", culoare);
     });
-}
 
+    $("#tara").on("change", function () {
+        var taraSelectata = $(this).val();
+        var $selectOras = $("#oras");
 
-var selectTara = document.getElementById("tara");
-var selectOras = document.getElementById("oras");
+        $selectOras.empty();
 
-if (selectTara && selectOras) {
-    selectTara.addEventListener("change", function () {
-        var taraSelectata = this.value;
-
-        selectOras.innerHTML = "";
-
-        var optDefault = document.createElement("option");
-        optDefault.value = "";
-        optDefault.textContent = "-- Selectează orașul sau regiunea --";
-        selectOras.appendChild(optDefault);
+        var $optDefault = $("<option>").val("").text("-- Selectează orașul sau regiunea --");
+        $selectOras.append($optDefault);
 
         if (taraSelectata && typeof tariOrase !== "undefined" && tariOrase[taraSelectata]) {
-            tariOrase[taraSelectata].forEach(function (oras) {
-                var opt = document.createElement("option");
-                opt.value = oras;
-                opt.textContent = oras;
-                selectOras.appendChild(opt);
+            $.each(tariOrase[taraSelectata], function (index, oras) {
+                var $opt = $("<option>").val(oras).text(oras);
+                $selectOras.append($opt);
             });
         }
 
         marcheazaValid("oras", "err-oras");
     });
-}
 
-var selectTipCont = document.getElementById("tip-cont");
-var campMagazin = document.getElementById("camp-magazin");
-
-if (selectTipCont && campMagazin) {
     function actualizeazaCampMagazin() {
-        var tip = selectTipCont.value;
+        var tip = $("#tip-cont").val();
+        var $campMagazin = $("#camp-magazin");
 
         if (tip === "vanzator" || tip === "ambele") {
-            campMagazin.style.display = "block";
+            $campMagazin.show();
         } else {
-            campMagazin.style.display = "none";
-
-            var inputMagazin = document.getElementById("nume-magazin");
-            if (inputMagazin) {
-                inputMagazin.value = "";
-                inputMagazin.classList.remove("invalid");
-            }
-
-            var errMagazin = document.getElementById("err-magazin");
-            if (errMagazin) {
-                errMagazin.classList.remove("vizibil");
-            }
+            $campMagazin.hide();
+            $("#nume-magazin").val("").removeClass("invalid");
+            $("#err-magazin").removeClass("vizibil");
         }
     }
 
-    selectTipCont.addEventListener("change", actualizeazaCampMagazin);
+    $("#tip-cont").on("change", actualizeazaCampMagazin);
     actualizeazaCampMagazin();
-}
 
-
-var formRegister = document.getElementById("formRegister");
-
-if (formRegister) {
-    formRegister.addEventListener("submit", function (e) {
+    $("#formRegister").on("submit", function (e) {
         e.preventDefault();
         var valid = true;
 
-        document.getElementById("succes-register").classList.remove("vizibil");
+        $("#succes-register").removeClass("vizibil");
 
-        var username = document.getElementById("username").value.trim();
+        var username = $("#username").val().trim();
         if (username.length < 3) {
             marcheazaInvalid("username", "err-username");
             valid = false;
@@ -169,7 +126,7 @@ if (formRegister) {
             marcheazaValid("username", "err-username");
         }
 
-        var email = document.getElementById("email").value.trim();
+        var email = $("#email").val().trim();
         if (!emailValid(email)) {
             marcheazaInvalid("email", "err-email");
             valid = false;
@@ -177,7 +134,7 @@ if (formRegister) {
             marcheazaValid("email", "err-email");
         }
 
-        var parola = document.getElementById("parola").value;
+        var parola = $("#parola").val();
         if (parola.length < 8) {
             marcheazaInvalid("parola", "err-parola");
             valid = false;
@@ -185,7 +142,7 @@ if (formRegister) {
             marcheazaValid("parola", "err-parola");
         }
 
-        var confirma = document.getElementById("confirma-parola").value;
+        var confirma = $("#confirma-parola").val();
         if (confirma.length === 0 || confirma !== parola) {
             marcheazaInvalid("confirma-parola", "err-confirma");
             valid = false;
@@ -193,7 +150,7 @@ if (formRegister) {
             marcheazaValid("confirma-parola", "err-confirma");
         }
 
-        var dataNasterii = document.getElementById("data-nasterii").value;
+        var dataNasterii = $("#data-nasterii").val();
         var azi = new Date().toISOString().split("T")[0];
         if (!dataNasterii || dataNasterii > azi) {
             marcheazaInvalid("data-nasterii", "err-data");
@@ -202,7 +159,7 @@ if (formRegister) {
             marcheazaValid("data-nasterii", "err-data");
         }
 
-        var tara = document.getElementById("tara").value;
+        var tara = $("#tara").val();
         if (!tara) {
             marcheazaInvalid("tara", "err-tara");
             valid = false;
@@ -210,7 +167,7 @@ if (formRegister) {
             marcheazaValid("tara", "err-tara");
         }
 
-        var oras = document.getElementById("oras").value;
+        var oras = $("#oras").val();
         if (!oras) {
             marcheazaInvalid("oras", "err-oras");
             valid = false;
@@ -218,12 +175,10 @@ if (formRegister) {
             marcheazaValid("oras", "err-oras");
         }
 
-        // MODIFICAT: validare pentru nume magazin doar la vanzator/ambele
-        var tipCont = document.getElementById("tip-cont").value;
-        var numeMagazin = document.getElementById("nume-magazin");
-
+        var tipCont = $("#tip-cont").val();
         if (tipCont === "vanzator" || tipCont === "ambele") {
-            if (!numeMagazin || numeMagazin.value.trim().length < 2) {
+            var numeMagazin = $("#nume-magazin").val().trim();
+            if (numeMagazin.length < 2) {
                 marcheazaInvalid("nume-magazin", "err-magazin");
                 valid = false;
             } else {
@@ -253,16 +208,17 @@ if (formRegister) {
             marcheazaValid("avatar", "err-avatar");
         }
 
-        var termeni = document.getElementById("termeni").checked;
+        var termeni = $("#termeni").is(":checked");
         if (!termeni) {
-            document.getElementById("err-termeni").classList.add("vizibil");
+            $("#err-termeni").addClass("vizibil");
             valid = false;
         } else {
-            document.getElementById("err-termeni").classList.remove("vizibil");
+            $("#err-termeni").removeClass("vizibil");
         }
 
         if (valid) {
-            document.getElementById("succes-register").classList.add("vizibil");
+            $("#succes-register").addClass("vizibil");
         }
     });
-}
+
+});

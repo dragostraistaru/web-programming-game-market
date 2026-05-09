@@ -1,20 +1,36 @@
 var currentColumn = "title";
 var ascending = true;
+var ascendingVertical = true;
+var currentSortRow = null;
+
+var rowOrder = ["title", "platform", "price", "rating"];
+var rowLabels = {
+    "title": "Titlu joc",
+    "platform": "Platforma",
+    "price": "Pret",
+    "rating": "Rating"
+};
+
+// alternative table state (for the secondary table in widgets.html)
+var currentColumnAlt = "title";
+var ascendingAlt = true;
 
 function renderTable() {
-    var tbody = document.getElementById("gamesTableBody");
-    if (!tbody) return;
+    var $tbody = $("#gamesTableBody");
+    if (!$tbody.length) return;
 
-    tbody.innerHTML = "";
+    $tbody.empty();
 
     gamesData.forEach(function (game) {
-        var row = document.createElement("tr");
-        row.innerHTML =
-            "<td>" + game.title + "</td>" +
-            "<td>" + game.platform + "</td>" +
-            "<td>" + game.price.toFixed(2) + " RON</td>" +
-            "<td>" + game.rating + " / 5</td>";
-        tbody.appendChild(row);
+        var $row = $("<tr>");
+        var $cells = [
+            $("<td>").text(game.title),
+            $("<td>").text(game.platform),
+            $("<td>").text(game.price.toFixed(2) + " RON"),
+            $("<td>").text(game.rating + " / 5")
+        ];
+        $row.append($cells);
+        $tbody.append($row);
     });
 
     updateHeaderStyles();
@@ -46,84 +62,55 @@ function sortTable(column) {
 }
 
 function updateHeaderStyles() {
-    var headers = document.querySelectorAll("#gamesTable th");
+    var $headers = $("#gamesTable th");
 
-    headers.forEach(function (header) {
-        header.classList.remove("sorted-asc");
-        header.classList.remove("sorted-desc");
+    $headers.removeClass("sorted-asc").removeClass("sorted-desc");
 
-        var column = header.getAttribute("data-column");
+    $headers.each(function () {
+        var $header = $(this);
+        var column = $header.attr("data-column");
         if (column === currentColumn) {
-            header.classList.add(ascending ? "sorted-asc" : "sorted-desc");
+            $header.addClass(ascending ? "sorted-asc" : "sorted-desc");
         }
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    var headers = document.querySelectorAll("#gamesTable th");
-
-    headers.forEach(function (header) {
-        header.classList.add("sortable");
-        header.addEventListener("click", function () {
-            var column = this.getAttribute("data-column");
-            sortTable(column);
-        });
-    });
-
-    renderTable();
-    renderTableVertical();
-});
-
-
-
-var ascendingVertical = true;
-var currentSortRow = null;
-
-var rowOrder = ["title", "platform", "price", "rating"];
-var rowLabels = {
-    "title": "Titlu joc",
-    "platform": "Platforma",
-    "price": "Pret",
-    "rating": "Rating"
-};
-
 function renderTableVertical() {
-    var tbody = document.getElementById("gamesTableVerticalBody");
-    if (!tbody) return;
+    var $tbody = $("#gamesTableVerticalBody");
+    if (!$tbody.length) return;
 
-    tbody.innerHTML = "";
+    $tbody.empty();
 
     rowOrder.forEach(function (prop) {
-        var row = document.createElement("tr");
+        var $row = $("<tr>");
 
-        var th = document.createElement("th");
-        th.textContent = rowLabels[prop];
-        th.classList.add("sortable-vertical");
-        th.setAttribute("data-prop", prop);
-        th.addEventListener("click", function () {
-            sortTableVertical(prop);
-        });
+        var $th = $("<th>")
+            .text(rowLabels[prop])
+            .addClass("sortable-vertical")
+            .attr("data-prop", prop)
+            .on("click", function () {
+                sortTableVertical(prop);
+            });
 
         if (prop === currentSortRow) {
-            th.classList.add(ascendingVertical ? "sorted-asc" : "sorted-desc");
+            $th.addClass(ascendingVertical ? "sorted-asc" : "sorted-desc");
         }
 
-        row.appendChild(th);
+        $row.append($th);
 
-        // MODIFICAT: gamesDataVertical in loc de gamesData
         gamesDataVertical.forEach(function (game) {
-            var td = document.createElement("td");
+            var $td = $("<td>");
             if (prop === "price") {
-                td.textContent = game[prop].toFixed(2) + " RON";
+                $td.text(game[prop].toFixed(2) + " RON");
             } else if (prop === "rating") {
-                td.textContent = game[prop] + " / 5";
+                $td.text(game[prop] + " / 5");
             } else {
-                td.textContent = game[prop];
+                $td.text(game[prop]);
             }
-            row.appendChild(td);
+            $row.append($td);
         });
 
-        tbody.appendChild(row);
+        $tbody.append($row);
     });
 }
 
@@ -150,5 +137,105 @@ function sortTableVertical(prop) {
     });
 
     renderTableVertical();
-
 }
+
+// de asta nou
+function renderAltTable() {
+    var $tbody = $("#gamesTableAltBody");
+    if (!$tbody.length) return;
+
+    $tbody.empty();
+
+    gamesData.forEach(function (game, idx) {
+        var $row = $("<tr>");
+        $row.append($("<td>").text(game.title));
+        $row.append($("<td>").text(game.platform));
+        $row.append($("<td>").text(game.price.toFixed(2) + " RON"));
+        $row.append($("<td>").text(game.rating + " / 5"));
+
+        $row.attr("data-index", idx);
+        $tbody.append($row);
+    });
+
+    $("#gamesTableAlt th").removeClass("sorted-asc sorted-desc");
+    $("#gamesTableAlt th[data-column='" + currentColumnAlt + "']").addClass(ascendingAlt ? "sorted-asc" : "sorted-desc");
+}
+
+function sortTableAlt(column) {
+    if (currentColumnAlt === column) {
+        ascendingAlt = !ascendingAlt;
+    } else {
+        currentColumnAlt = column;
+        ascendingAlt = true;
+    }
+
+    gamesData.sort(function (a, b) {
+        var valueA = a[column];
+        var valueB = b[column];
+
+        if (typeof valueA === "string") {
+            valueA = valueA.toLowerCase();
+            valueB = valueB.toLowerCase();
+        }
+
+        if (valueA < valueB) return ascendingAlt ? -1 : 1;
+        if (valueA > valueB) return ascendingAlt ? 1 : -1;
+        return 0;
+    });
+
+    renderAltTable();
+}
+
+$(document).ready(function () {
+
+    var $headers = $("#gamesTable th");
+    $headers.addClass("sortable");
+    $headers.on("click", function () {
+        var column = $(this).attr("data-column");
+        sortTable(column);
+    });
+
+    var $altHeaders = $("#gamesTableAlt th");
+    if ($altHeaders.length) {
+        $altHeaders.click(function () {
+            var col = $(this).attr("data-column");
+            sortTableAlt(col);
+        });
+
+        $altHeaders.dblclick(function () {
+            currentColumnAlt = "title";
+            ascendingAlt = true;
+            renderAltTable();
+        });
+
+
+        $("#gamesTableAlt tbody").find("tr").hover(
+            function () { $(this).addClass("row-hover"); },
+            function () { $(this).removeClass("row-hover"); }
+        );
+
+
+        $("#gamesTableAlt").delegate("tbody tr", "click", function () {
+            var idx = $(this).attr("data-index");
+            if (typeof idx !== 'undefined') {
+                var g = gamesData[parseInt(idx, 10)];
+                if (g) console.log("Alt table row clicked:", g.title);
+            }
+        });
+
+
+        $altHeaders.first().bind("mouseenter", function () {
+            $(this).addClass("header-bound");
+        });
+
+        $altHeaders.first().bind("mouseleave", function () {
+            $(this).removeClass("header-bound");
+        });
+
+    }
+
+    renderTable();
+    renderTableVertical();
+    renderAltTable();
+
+});

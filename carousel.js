@@ -22,56 +22,56 @@ const slides = [
 ];
 
 let currentSlide = 0;
-
 let intervalId = null;
 
-const slideContainer = document.getElementById("carouselSlide");
-const slideLink = document.getElementById("carouselLink");
-const slideText = document.getElementById("carouselText");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
+$(document).ready(function () {
+    const $slideContainer = $("#carouselSlide");
+    const $slideLink = $("#carouselLink");
+    const $slideText = $("#carouselText");
+    const $prevBtn = $("#prevBtn");
+    const $nextBtn = $("#nextBtn");
 
-function afiseazaSlide(index) {
-    const slide = slides[index];
-    slideContainer.style.backgroundImage = "url('" + slide.image + "')";
-    slideLink.href = slide.link;
-    slideText.textContent = slide.text;
-}
+    function afiseazaSlide(index) {
+        const slide = slides[index];
+        $slideContainer.fadeOut(400, function() {
+            $slideContainer.css("background-image", "url('" + slide.image + "')");
+            $slideLink.attr("href", slide.link);
+            $slideText.text(slide.text);
+            $slideContainer.fadeIn(400);
+        });
+    }
 
-function slideUrmator() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    afiseazaSlide(currentSlide);
-}
+    function slideUrmator() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        afiseazaSlide(currentSlide);
+    }
 
-function slideAnterior() {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    afiseazaSlide(currentSlide);
-}
+    function slideAnterior() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        afiseazaSlide(currentSlide);
+    }
 
-function pornesteCarousel() {
-    intervalId = setInterval(slideUrmator, 3000);
-}
+    function pornesteCarousel() {
+        intervalId = setInterval(slideUrmator, 3000);
+    }
 
-function reseteazaCarousel() {
-    clearInterval(intervalId);
-    pornesteCarousel();
-}
+    function reseteazaCarousel() {
+        clearInterval(intervalId);
+        pornesteCarousel();
+    }
 
-if (slideContainer && slideLink && slideText) {
-    afiseazaSlide(currentSlide);
-    pornesteCarousel();
-}
+    if ($slideContainer.length && $slideLink.length && $slideText.length) {
+        afiseazaSlide(currentSlide);
+        pornesteCarousel();
+    }
 
-if (nextBtn) {
-    nextBtn.addEventListener("click", function () {
+    $nextBtn.on("click", function () {
         slideUrmator();
         reseteazaCarousel();
     });
-}
 
-if (prevBtn) {
-    prevBtn.addEventListener("click", function () {
+    $prevBtn.on("click", function () {
         slideAnterior();
         reseteazaCarousel();
     });
-}
+});

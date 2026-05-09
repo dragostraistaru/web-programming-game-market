@@ -1,6 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const estimateBtn = document.getElementById("estimateBtn");
-    if (!estimateBtn) return;
+$(document).ready(function () {
+    const $estimateBtn = $("#estimateBtn");
+    if (!$estimateBtn.length) return;
 
     const gamesCatalog = [
         { name: "Elden Ring", price: 89.99 },
@@ -31,12 +31,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return posibil || gamesCatalog[0];
     }
 
-    estimateBtn.addEventListener("click", function () {
-        const searchValue = document.getElementById("searchGame").value;
-        const maxPriceValue = document.getElementById("maxPrice").value;
-        const promoCode = document.getElementById("promoCode").value.trim().toUpperCase();
-        const instantDelivery = document.getElementById("instantDelivery").checked;
-        const manualDelivery = document.getElementById("manualDelivery").checked;
+    $estimateBtn.on("click", function () {
+        const searchValue = $("#searchGame").val();
+        const maxPriceValue = $("#maxPrice").val();
+        const promoCode = $("#promoCode").val().trim().toUpperCase();
+        const instantDelivery = $("#instantDelivery").is(":checked");
+        const manualDelivery = $("#manualDelivery").is(":checked");
 
         const game = gasesteJoc(searchValue, maxPriceValue);
 
@@ -79,11 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
             status += " | Premium offer";
         }
 
-        document.getElementById("estGameName").textContent = game.name;
-        document.getElementById("estBasePrice").textContent = basePrice.toFixed(2) + " RON";
-        document.getElementById("estDiscount").textContent = discount.toFixed(2) + " RON";
-        document.getElementById("estDelivery").textContent = deliveryFee.toFixed(2) + " RON";
-        document.getElementById("estFinalPrice").textContent = finalPrice.toFixed(2) + " RON";
-        document.getElementById("estStatus").textContent = status;
+        $("#estGameName").text(game.name);
+        $("#estBasePrice").text(basePrice.toFixed(2) + " RON");
+        $("#estDiscount").text(discount.toFixed(2) + " RON");
+        $("#estDelivery").text(deliveryFee.toFixed(2) + " RON");
+        $("#estFinalPrice").text(finalPrice.toFixed(2) + " RON");
+        $("#estStatus").text(status);
     });
 });
