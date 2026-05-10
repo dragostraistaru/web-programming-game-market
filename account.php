@@ -27,6 +27,10 @@ $login_error = isset($_GET['login_error']) ? $_GET['login_error'] : null;
 $register_error = isset($_GET['register_error']) ? $_GET['register_error'] : null;
 $registered = isset($_GET['registered']);
 $logout = isset($_GET['logged_out']);
+$avatar_deleted = isset($_GET['avatar_deleted']);
+$avatar_error = isset($_GET['avatar_error']);
+$profile_updated = isset($_GET['profile_updated']);
+$profile_error = isset($_GET['profile_error']) ? $_GET['profile_error'] : null;
 
 function e($v) { return htmlspecialchars($v !== null ? $v : '', ENT_QUOTES, 'UTF-8'); }
 
@@ -288,6 +292,30 @@ if (!empty($_SESSION['user_id'])) {
     </div>
 <?php endif; ?>
 
+<?php if ($avatar_deleted): ?>
+    <div class="profile-box">
+        Avatarul a fost sters.
+    </div>
+<?php endif; ?>
+
+<?php if ($avatar_error): ?>
+    <div class="profile-box">
+        Nu s-a putut sterge avatarul.
+    </div>
+<?php endif; ?>
+
+<?php if ($profile_updated): ?>
+    <div class="profile-box">
+        Profilul a fost actualizat.
+    </div>
+<?php endif; ?>
+
+<?php if ($profile_error): ?>
+    <div class="profile-box">
+        <?php echo e($profile_error); ?>
+    </div>
+<?php endif; ?>
+
 <?php if ($current_user): ?>
     <div class="profile-box">
         <h3>Profilul meu</h3>
@@ -309,7 +337,49 @@ if (!empty($_SESSION['user_id'])) {
 
         <p><strong>Bio:</strong> <?php echo e($current_user['bio'] ?: 'Nu ai completat inca un bio.'); ?></p>
 
+        <form method="post" action="update_profile.php">
+            <fieldset>
+                <legend>Editeaza profil</legend>
+
+                <div class="camp">
+                    <label class="label" for="edit-email">Email</label>
+                    <input
+                            type="email"
+                            id="edit-email"
+                            name="email"
+                            value="<?php echo e($current_user['email']); ?>"
+                            maxlength="100"
+                            required>
+                </div>
+
+                <div class="camp">
+                    <label class="label" for="edit-role">Tip cont</label>
+                    <select id="edit-role" name="role">
+                        <option value="cumparator" <?php echo $current_user['role'] === 'cumparator' ? 'selected' : ''; ?>>Cumparator</option>
+                        <option value="vanzator" <?php echo $current_user['role'] === 'vanzator' ? 'selected' : ''; ?>>Vanzator</option>
+                        <option value="ambele" <?php echo $current_user['role'] === 'ambele' ? 'selected' : ''; ?>>Ambele</option>
+                    </select>
+                </div>
+
+                <div class="camp">
+                    <label class="label" for="edit-bio">Bio</label>
+                    <textarea
+                            id="edit-bio"
+                            name="bio"
+                            rows="3"
+                            maxlength="200"><?php echo e($current_user['bio']); ?></textarea>
+                </div>
+
+                <div class="camp">
+                    <button type="submit">Salveaza profil</button>
+                </div>
+            </fieldset>
+        </form>
+
         <div class="profile-actions">
+            <?php if (!empty($current_user['avatar'])): ?>
+                <a href="delete_avatar.php">Sterge avatar</a>
+            <?php endif; ?>
             <a href="logout.php">Logout</a>
         </div>
     </div>
