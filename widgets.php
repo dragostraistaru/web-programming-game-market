@@ -213,13 +213,15 @@
 </p>
 
 <div class="main-menu">
-    <a href="forum.html" id="homeLink" target="_self" title="Home">Home</a>
+    <a href="forum.php" id="homeLink" target="_self" title="Home">Home</a>
     &nbsp;|&nbsp;
-    <a href="forum.html" id="forumLink" target="_self" title="Forum">Forum</a>
+    <a href="forum.php" id="forumLink" target="_self" title="Forum">Forum</a>
     &nbsp;|&nbsp;
-    <a href="listing.html" id="listingLink" target="_blank" title="Games">Games &amp; Deals</a>
+    <a href="listing.php" id="listingLink" target="_blank" title="Games">Games &amp; Deals</a>
     &nbsp;|&nbsp;
-    <a href="sprites.html" id="spritesLink" target="_self" title="Navigare">Navigare</a>
+    <a href="sprites.php" id="spritesLink" target="_self" title="Navigare">Navigare</a>
+    &nbsp;|&nbsp;
+    <a href="account.php" id="accountLink" target="_self" title="Cont">Cont</a>
 </div>
 
 <img

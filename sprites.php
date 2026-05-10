@@ -76,23 +76,23 @@
 
 
 <div class="main-menu nav-sprites">
-    <a href="forum.html" id="homeLink" title="Acasa">
+    <a href="forum.php" id="homeLink" title="Acasa">
         <span class="sprite sprite-home"></span>
         Home
     </a>
-    <a href="forum.html" id="forumLink" title="Forum" target="_self">
+    <a href="forum.php" id="forumLink" title="Forum" target="_self">
         <span class="sprite sprite-forum"></span>
         Forum
     </a>
-    <a href="listing.html" id="listingLink" title="Jocuri si oferte" target="_blank">
+    <a href="listing.php" id="listingLink" title="Jocuri si oferte" target="_blank">
         <span class="sprite sprite-deals"></span>
         Games &amp; Deals
     </a>
-    <a href="listing.html#filter" id="filterLink" title="Filtreaza jocuri" target="_self">
+    <a href="listing.php#filter" id="filterLink" title="Filtreaza jocuri" target="_self">
         <span class="sprite sprite-filter"></span>
         Filter Games
     </a>
-    <a href="#profil" id="profileLink" title="Profilul meu" target="_self">
+    <a href="account.php" id="profileLink" title="Profilul meu" target="_self">
         <span class="sprite sprite-profile"></span>
         Profil
     </a>

@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+function e($v) {
+    return htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -18,10 +27,21 @@
 </p>
 
 <div class="main-menu">
-    <a href="listing.html" id="homeLink" target="_self" title="Home">Home</a>
-    <a href="forum.html" id="forumLink" target="_self" title="Community forum">Forum</a>
+    <a href="listing.php" id="homeLink" target="_self" title="Home">Home</a>
+    <a href="forum.php" id="forumLink" target="_self" title="Community forum">Forum</a>
     <a href="#filter" id="gotoFilter" target="_self" title="Filter games">Filter Games</a>
-    <a href="widgets.html" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <a href="widgets.php" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <a href="account.php" id="accountLink" target="_self" title="Cont">Cont</a>
+
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <span class="welcome-user">
+            Bun venit, <?php echo e($_SESSION['username']); ?>!
+        </span>
+
+        <a href="logout.php" class="logout-link">Logout</a>
+    <?php else: ?>
+        <a href="account.php">Login</a>
+    <?php endif; ?>
 </div>
 
 <br>

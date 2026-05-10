@@ -18,13 +18,15 @@
 </p>
 
 <div class="main-menu">
-    <a href="forum.html" id="homeLink" target="_self" title="Home">Home</a>
+    <a href="forum.php" id="homeLink" target="_self" title="Home">Home</a>
     &nbsp;|&nbsp;
-    <a href="listing.html" id="listingLink" target="_blank" title="Browse games">Games &amp; Deals</a>
+    <a href="listing.php" id="listingLink" target="_blank" title="Browse games">Games &amp; Deals</a>
     &nbsp;|&nbsp;
     <a href="#newpost" id="gotoForm" target="_self" title="Open new topic">New Topic</a>
     &nbsp;|&nbsp;
-    <a href="widgets.html" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <a href="widgets.php" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    &nbsp;|&nbsp;
+    <a href="account.php" id="accountLink" target="_self" title="Cont">Cont</a>
 </div>
 
 <br>

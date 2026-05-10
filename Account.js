@@ -40,8 +40,10 @@ $(document).ready(function () {
             marcheazaValid("login-parola", "err-login-parola");
         }
 
-        if (valid) {
+        if (valid && $(this).attr("action") === "#") {
             $("#succes-login").addClass("vizibil");
+        } else if (valid) {
+            this.submit();
         }
     });
 
@@ -216,8 +218,10 @@ $(document).ready(function () {
             $("#err-termeni").removeClass("vizibil");
         }
 
-        if (valid) {
+        if (valid && $(this).attr("action") === "#") {
             $("#succes-register").addClass("vizibil");
+        } else if (valid) {
+            this.submit();
         }
     });
 

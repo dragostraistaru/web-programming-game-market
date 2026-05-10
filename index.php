@@ -2,4 +2,4 @@
 echo "PHP merge!";
 ?>
 
-<a href="listing.html">Listing</a>
+<a href="listing.php">Listing</a>

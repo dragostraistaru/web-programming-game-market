@@ -1,3 +1,51 @@
+<?php
+session_start();
+// Auto-login using rememberme cookie if session not set
+require_once __DIR__ . '/config/mysqli.php';
+if (empty($_SESSION['user_id']) && !empty($_COOKIE['rememberme'])) {
+    try {
+        $token = $_COOKIE['rememberme'];
+        $mysqli = get_mysqli();
+        $stmt = $mysqli->prepare('SELECT id, username, role FROM users WHERE remember_token = ? LIMIT 1');
+        $stmt->bind_param('s', $token);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $u = $res->fetch_assoc();
+        $stmt->close();
+        if ($u) {
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = $u['id'];
+            $_SESSION['username'] = $u['username'];
+            $_SESSION['role'] = $u['role'];
+        }
+    } catch (Exception $e) {
+        // ignore auto-login errors
+    }
+}
+
+$login_error = isset($_GET['login_error']) ? $_GET['login_error'] : null;
+$register_error = isset($_GET['register_error']) ? $_GET['register_error'] : null;
+$registered = isset($_GET['registered']);
+$logout = isset($_GET['logged_out']);
+
+function e($v) { return htmlspecialchars($v !== null ? $v : '', ENT_QUOTES, 'UTF-8'); }
+
+$current_user = null;
+if (!empty($_SESSION['user_id'])) {
+    try {
+        $mysqli = get_mysqli();
+        $stmt = $mysqli->prepare('SELECT id, username, email, role, avatar, bio, created_at FROM users WHERE id = ? LIMIT 1');
+        $stmt->bind_param('i', $_SESSION['user_id']);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $current_user = $res->fetch_assoc();
+        $stmt->close();
+    } catch (Exception $e) {
+        $current_user = null;
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -141,6 +189,49 @@
             color: var(--muted);
             margin-top: 2px;
         }
+
+        .profile-box {
+            max-width: 720px;
+            margin: 24px auto;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--border);
+            background-color: #f3f4f6;
+        }
+
+        .profile-actions {
+            margin-top: 18px;
+        }
+
+        .profile-actions a {
+            display: inline-block;
+            padding: 10px 16px;
+            background-color: var(--menu);
+            color: white;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .profile-actions a:hover {
+            background-color: var(--menu-hover);
+        }
     </style>
 </head>
 <body>
@@ -149,19 +240,28 @@
 <h2>Contul meu</h2>
 
 <p>
-    <b>Bun venit!</b> Autentifică-te sau creează un cont nou.
+    <b>Bun venit!</b>
+    <?php if ($current_user): ?>
+        Ești autentificat ca <?php echo e($current_user['username']); ?>.
+    <?php else: ?>
+        Autentifică-te sau creează un cont nou.
+    <?php endif; ?>
     <br>
     <span title="Info">Contul îți permite să cumperi chei și să postezi pe forum.</span>
 </p>
 
 <div class="main-menu">
-    <a href="forum.html" id="homeLink" target="_self" title="Home">Home</a>
+    <a href="forum.php" id="homeLink" target="_self" title="Home">Home</a>
     &nbsp;|&nbsp;
     <a href="listing.php" id="listingLink" target="_blank" title="Browse games">Games &amp; Deals</a>
     &nbsp;|&nbsp;
-    <a href="forum.html#newpost" id="forumLink" target="_self" title="Forum">Forum</a>
+    <a href="forum.php#newpost" id="forumLink" target="_self" title="Forum">Forum</a>
     &nbsp;|&nbsp;
-    <a href="widgets.html" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <a href="widgets.php" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <?php if ($current_user): ?>
+        &nbsp;|&nbsp;
+        <a href="logout.php" title="Logout">Logout</a>
+    <?php endif; ?>
 </div>
 
 <img
@@ -171,15 +271,51 @@
         alt="GameMarket Logo"
         title="GameMarket - official logo">
 
+<?php if ($logout): ?>
+    <div class="profile-box">
+        Ai fost delogat cu succes.
+    </div>
+<?php endif; ?>
+
+<?php if ($current_user): ?>
+    <div class="profile-box">
+        <h3>Profilul meu</h3>
+
+        <div class="profile-header">
+            <?php if (!empty($current_user['avatar'])): ?>
+                <img class="profile-avatar" src="<?php echo e($current_user['avatar']); ?>" alt="Avatar profil">
+            <?php else: ?>
+                <img class="profile-avatar" src="images/logo.png" alt="Avatar implicit">
+            <?php endif; ?>
+
+            <div>
+                <p><strong>Username:</strong> <?php echo e($current_user['username']); ?></p>
+                <p><strong>Email:</strong> <?php echo e($current_user['email']); ?></p>
+                <p><strong>Rol:</strong> <?php echo e($current_user['role']); ?></p>
+                <p><strong>Creat la:</strong> <?php echo e($current_user['created_at']); ?></p>
+            </div>
+        </div>
+
+        <p><strong>Bio:</strong> <?php echo e($current_user['bio'] ?: 'Nu ai completat inca un bio.'); ?></p>
+
+        <div class="profile-actions">
+            <a href="logout.php">Logout</a>
+        </div>
+    </div>
+<?php else: ?>
 <div class="auth-container">
     <div class="auth-box">
         <h3>Autentificare</h3>
 
-        <div id="succes-login" class="succes-msg">
-            Autentificare reușită! Bun venit înapoi.
+        <div id="succes-login" class="succes-msg <?php echo ($registered ? 'vizibil' : ''); ?>">
+            <?php if ($registered): ?>Cont creat cu succes! Te poți autentifica acum.<?php endif; ?>
         </div>
 
-        <form id="formLogin" action="#" method="post" name="loginForm" novalidate>
+        <?php if ($login_error): ?>
+            <div class="eroare vizibil"><?php echo e($login_error); ?></div>
+        <?php endif; ?>
+
+        <form id="formLogin" action="login.php" method="post" name="loginForm" novalidate>
             <fieldset>
                 <legend>Login</legend>
 
@@ -189,7 +325,7 @@
                             type="email"
                             id="login-email"
                             name="login_email"
-                            value=""
+                            value="<?php echo e(isset($_GET['login_email']) ? $_GET['login_email'] : ''); ?>"
                             maxlength="100"
                             title="Adresa ta de email">
                     <span class="eroare" id="err-login-email">Introdu un email valid.</span>
@@ -222,11 +358,15 @@
     <div class="auth-box">
         <h3>Creează cont nou</h3>
 
-        <div id="succes-register" class="succes-msg">
-            Cont creat cu succes! Verifică emailul pentru confirmare.
+        <div id="succes-register" class="succes-msg <?php echo ($registered ? 'vizibil' : ''); ?>">
+            <?php if ($registered): ?>Cont creat cu succes! Verifică emailul pentru confirmare.<?php endif; ?>
         </div>
 
-        <form id="formRegister" action="#" method="post" name="registerForm" novalidate>
+        <?php if ($register_error): ?>
+            <div class="eroare vizibil"><?php echo e($register_error); ?></div>
+        <?php endif; ?>
+
+        <form id="formRegister" action="register.php" method="post" name="registerForm" enctype="multipart/form-data" novalidate>
             <fieldset>
                 <legend>Înregistrare</legend>
 
@@ -236,7 +376,7 @@
                             type="text"
                             id="username"
                             name="username"
-                            value=""
+                            value="<?php echo e(isset($_GET['username']) ? $_GET['username'] : ''); ?>"
                             maxlength="30"
                             title="Numele tău de utilizator (minim 3 caractere)">
                     <span class="eroare" id="err-username">Username-ul trebuie să aibă minim 3 caractere.</span>
@@ -248,7 +388,7 @@
                             type="email"
                             id="email"
                             name="email"
-                            value=""
+                            value="<?php echo e(isset($_GET['email']) ? $_GET['email'] : ''); ?>"
                             maxlength="100"
                             title="Adresa ta de email">
                     <span class="eroare" id="err-email">Introdu un email valid (ex: user@email.com).</span>
@@ -368,7 +508,7 @@
                             name="bio"
                             rows="3"
                             maxlength="200"
-                            title="Scrie câteva cuvinte despre tine">Pasionat de jocuri, caut chei la prețuri corecte.</textarea>
+                            title="Scrie câteva cuvinte despre tine"><?php echo e(isset($_GET['bio']) ? $_GET['bio'] : 'Pasionat de jocuri, caut chei la prețuri corecte.'); ?></textarea>
                 </div>
 
                 <hr class="separator">
@@ -391,6 +531,7 @@
         </form>
     </div>
 </div>
+<?php endif; ?>
 
 <br>
 <h3 title="Footer">GameMarket 2026 &mdash; Contul meu</h3>
@@ -401,3 +542,6 @@
 
 </body>
 </html>
+
+
+
