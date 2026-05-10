@@ -30,6 +30,13 @@ $logout = isset($_GET['logged_out']);
 
 function e($v) { return htmlspecialchars($v !== null ? $v : '', ENT_QUOTES, 'UTF-8'); }
 
+if (empty($_SESSION['user_id']) && empty($_SESSION['login_captcha_answer'])) {
+    $captcha_a = random_int(1, 9);
+    $captcha_b = random_int(1, 9);
+    $_SESSION['login_captcha_question'] = $captcha_a . ' + ' . $captcha_b;
+    $_SESSION['login_captcha_answer'] = (string)($captcha_a + $captcha_b);
+}
+
 $current_user = null;
 if (!empty($_SESSION['user_id'])) {
     try {
@@ -350,6 +357,20 @@ if (!empty($_SESSION['user_id'])) {
                 <div class="camp">
                     <input type="checkbox" name="tine_minte" id="tine-minte" value="yes" title="Ține-mă minte">
                     <label for="tine-minte"> Ține-mă minte</label>
+                </div>
+
+                <div class="camp">
+                    <label class="label" for="login-captcha">
+                        CAPTCHA: cât face <?php echo e($_SESSION['login_captcha_question'] ?? ''); ?>?
+                    </label>
+                    <input
+                            type="text"
+                            id="login-captcha"
+                            name="login_captcha"
+                            value=""
+                            maxlength="3"
+                            title="Raspunde la intrebarea CAPTCHA">
+                    <span class="eroare" id="err-login-captcha">Raspuns CAPTCHA invalid.</span>
                 </div>
 
                 <div class="camp">

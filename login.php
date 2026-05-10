@@ -10,10 +10,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $email = isset($_POST['login_email']) ? trim($_POST['login_email']) : '';
 $password = isset($_POST['login_parola']) ? $_POST['login_parola'] : '';
+$captcha = isset($_POST['login_captcha']) ? trim($_POST['login_captcha']) : '';
 $tine_minte = isset($_POST['tine_minte']) && $_POST['tine_minte'] === 'yes';
 
 if ($email === '' || $password === '') {
     $msg = 'Completează email și parolă.';
+    header('Location: account.php?login_error=' . urlencode($msg) . '&login_email=' . urlencode($email));
+    exit;
+}
+
+if ($captcha === '' || !isset($_SESSION['login_captcha_answer']) || !hash_equals($_SESSION['login_captcha_answer'], $captcha)) {
+    unset($_SESSION['login_captcha_question'], $_SESSION['login_captcha_answer']);
+    $msg = 'Raspuns CAPTCHA invalid.';
     header('Location: account.php?login_error=' . urlencode($msg) . '&login_email=' . urlencode($email));
     exit;
 }
@@ -29,6 +37,7 @@ try {
     $stmt->close();
 
     if (!$user || !password_verify($password, $user['password_hash'])) {
+        unset($_SESSION['login_captcha_question'], $_SESSION['login_captcha_answer']);
         $msg = 'Email sau parolă incorectă.';
         header('Location: account.php?login_error=' . urlencode($msg) . '&login_email=' . urlencode($email));
         exit;
@@ -39,6 +48,7 @@ try {
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['role'] = $user['role'];
+    unset($_SESSION['login_captcha_question'], $_SESSION['login_captcha_answer']);
 
     if ($tine_minte) {
         // generate token, store in DB and set persistent cookie (30 days)
