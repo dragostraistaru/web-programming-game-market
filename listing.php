@@ -38,6 +38,10 @@ function e($v) {
             Bun venit, <?php echo e($_SESSION['username']); ?>!
         </span>
 
+        <?php if (in_array($_SESSION['role'] ?? '', ['vanzator', 'ambele'], true)): ?>
+            <a href="seller.php">Seller</a>
+        <?php endif; ?>
+
         <a href="logout.php" class="logout-link">Logout</a>
     <?php else: ?>
         <a href="account.php">Login</a>

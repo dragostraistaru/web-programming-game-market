@@ -258,6 +258,10 @@ if (!empty($_SESSION['user_id'])) {
     <a href="forum.php#newpost" id="forumLink" target="_self" title="Forum">Forum</a>
     &nbsp;|&nbsp;
     <a href="widgets.php" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <?php if ($current_user && in_array($current_user['role'], ['vanzator', 'ambele'], true)): ?>
+        &nbsp;|&nbsp;
+        <a href="seller.php" title="Zona vanzator">Seller</a>
+    <?php endif; ?>
     <?php if ($current_user): ?>
         &nbsp;|&nbsp;
         <a href="logout.php" title="Logout">Logout</a>
