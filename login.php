@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = isset($_POST['login_email']) ? trim($_POST['login_email']) : '';
 $password = isset($_POST['login_parola']) ? $_POST['login_parola'] : '';
 $captcha = isset($_POST['login_captcha']) ? trim($_POST['login_captcha']) : '';
+// Cerinta: Remember me - verificam daca utilizatorul a bifat optiunea din formularul de login.
 $tine_minte = isset($_POST['tine_minte']) && $_POST['tine_minte'] === 'yes';
 
 if ($email === '' || $password === '') {
@@ -51,7 +52,7 @@ try {
     unset($_SESSION['login_captcha_question'], $_SESSION['login_captcha_answer']);
 
     if ($tine_minte) {
-        // generate token, store in DB and set persistent cookie (30 days)
+        // Cerinta: Remember me - generam token il salvam in baza de date si setam cookie persistent 30 de zile.
         if (function_exists('random_bytes')) {
             $token = bin2hex(random_bytes(32));
         } else {

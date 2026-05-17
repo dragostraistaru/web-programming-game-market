@@ -13,7 +13,7 @@ if (ini_get('session.use_cookies')) {
 }
 session_destroy();
 
-// clear rememberme cookie and DB token
+// Cerinta: Remember me - la logout stergem cookie-ul persistent si tokenul din baza de date.
 if (!empty($_COOKIE['rememberme'])) {
     $token = $_COOKIE['rememberme'];
     try {

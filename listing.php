@@ -31,6 +31,7 @@ function e($v) {
     <a href="forum.php" id="forumLink" target="_self" title="Community forum">Forum</a>
     <a href="#filter" id="gotoFilter" target="_self" title="Filter games">Filter Games</a>
     <a href="widgets.php" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    <a href="extra_db.php" title="SQLite">SQLite</a>
     <a href="account.php" id="accountLink" target="_self" title="Cont">Cont</a>
 
     <?php if (isset($_SESSION['user_id'])): ?>

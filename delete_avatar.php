@@ -10,6 +10,7 @@ if (empty($_SESSION['user_id'])) {
 try {
     $mysqli = get_mysqli();
 
+    // Cerinta: stergere fisiere incarcate - cautam avatarul utilizatorului autentificat.
     $stmt = $mysqli->prepare('SELECT avatar FROM users WHERE id = ? LIMIT 1');
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
@@ -18,6 +19,7 @@ try {
     $stmt->close();
 
     if (!empty($user['avatar'])) {
+        // Cerinta: stergere fisiere incarcate - stergem fisierul avatar de pe server.
         $avatarPath = str_replace('\\', '/', $user['avatar']);
         $allowedPrefix = 'uploads/avatars/';
 
@@ -31,6 +33,7 @@ try {
             }
         }
 
+        // Cerinta: stergere fisiere incarcate - eliminam calea avatarului din baza de date.
         $stmt = $mysqli->prepare('UPDATE users SET avatar = NULL WHERE id = ?');
         $stmt->bind_param('i', $_SESSION['user_id']);
         $stmt->execute();

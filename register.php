@@ -26,7 +26,7 @@ if (($tip_cont === 'vanzator' || $tip_cont === 'ambele') && strlen($nume_magazin
 if (!$terms) $errors[] = 'Trebuie să accepți termenii și condițiile.';
 
 $avatar_path = null;
-// handle avatar upload
+// Cerinta: upload de fisiere - primim avatarul din formular, il validam si il salvam pe server.
 if (!empty($_FILES['avatar']) && $_FILES['avatar']['error'] !== UPLOAD_ERR_NO_FILE) {
     $f = $_FILES['avatar'];
     if ($f['error'] !== UPLOAD_ERR_OK) {
@@ -55,7 +55,6 @@ if (!empty($_FILES['avatar']) && $_FILES['avatar']['error'] !== UPLOAD_ERR_NO_FI
 
 if (!empty($errors)) {
     $msg = urlencode(implode(' ', $errors));
-    // send back some fields so user doesn't retype everything
     $params = '&username=' . urlencode($username) . '&email=' . urlencode($email) . '&bio=' . urlencode($bio);
     header('Location: account.php?register_error=' . $msg . $params);
     exit;
@@ -76,7 +75,6 @@ try {
     header('Location: account.php?registered=1');
     exit;
 } catch (PDOException $ex) {
-    // handle duplicate email/username
     $err = $ex->getCode();
     $msg = 'Eroare la înregistrare.';
     if (strpos($ex->getMessage(), 'Duplicate') !== false) {

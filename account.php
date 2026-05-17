@@ -1,6 +1,6 @@
 <?php
 session_start();
-// Auto-login using rememberme cookie if session not set
+// Cerinta: Remember me - auto-login folosind cookie-ul persistent daca sesiunea nu exista.
 require_once __DIR__ . '/config/mysqli.php';
 if (empty($_SESSION['user_id']) && !empty($_COOKIE['rememberme'])) {
     try {
@@ -45,6 +45,7 @@ $current_user = null;
 if (!empty($_SESSION['user_id'])) {
     try {
         $mysqli = get_mysqli();
+        // Cerinta: precompletare formulare - citim datele existente ale utilizatorului din baza de date.
         $stmt = $mysqli->prepare('SELECT id, username, email, role, avatar, bio, created_at FROM users WHERE id = ? LIMIT 1');
         $stmt->bind_param('i', $_SESSION['user_id']);
         $stmt->execute();
@@ -269,6 +270,8 @@ if (!empty($_SESSION['user_id'])) {
     <a href="forum.php#newpost" id="forumLink" target="_self" title="Forum">Forum</a>
     &nbsp;|&nbsp;
     <a href="widgets.php" id="dashboardLink" target="_self" title="Dashboard">Dashboard</a>
+    &nbsp;|&nbsp;
+    <a href="extra_db.php" title="SQLite">SQLite</a>
     <?php if ($current_user && in_array($current_user['role'], ['vanzator', 'ambele'], true)): ?>
         &nbsp;|&nbsp;
         <a href="seller.php" title="Zona vanzator">Seller</a>
@@ -341,6 +344,7 @@ if (!empty($_SESSION['user_id'])) {
             <fieldset>
                 <legend>Editeaza profil</legend>
 
+                <!-- Cerinta: precompletare formulare - input precompletat cu emailul din baza de date. -->
                 <div class="camp">
                     <label class="label" for="edit-email">Email</label>
                     <input
@@ -352,6 +356,7 @@ if (!empty($_SESSION['user_id'])) {
                             required>
                 </div>
 
+                <!-- Cerinta: precompletare formulare - select precompletat cu rolul salvat in baza de date. -->
                 <div class="camp">
                     <label class="label" for="edit-role">Tip cont</label>
                     <select id="edit-role" name="role">
@@ -361,6 +366,7 @@ if (!empty($_SESSION['user_id'])) {
                     </select>
                 </div>
 
+                <!-- Cerinta: precompletare formulare - textarea precompletat cu bio-ul din baza de date. -->
                 <div class="camp">
                     <label class="label" for="edit-bio">Bio</label>
                     <textarea
@@ -378,6 +384,7 @@ if (!empty($_SESSION['user_id'])) {
 
         <div class="profile-actions">
             <?php if (!empty($current_user['avatar'])): ?>
+                <!-- Cerinta: stergere fisiere incarcate - link catre stergerea avatarului salvat. -->
                 <a href="delete_avatar.php">Sterge avatar</a>
             <?php endif; ?>
             <a href="logout.php">Logout</a>
@@ -425,6 +432,7 @@ if (!empty($_SESSION['user_id'])) {
                 </div>
 
                 <div class="camp">
+                    <!-- Cerinta: Remember me - checkbox-ul trimite catre login.php optiunea pentru cookie persistent. -->
                     <input type="checkbox" name="tine_minte" id="tine-minte" value="yes" title="Ține-mă minte">
                     <label for="tine-minte"> Ține-mă minte</label>
                 </div>
@@ -587,6 +595,7 @@ if (!empty($_SESSION['user_id'])) {
 
                 <div class="camp">
                     <label class="label" for="avatar">Avatar (imagine profil)</label>
+                    <!-- Cerinta: upload de fisiere - input pentru incarcarea pozei de profil. -->
                     <input
                             type="file"
                             id="avatar"
