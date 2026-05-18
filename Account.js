@@ -187,7 +187,7 @@ $(document).ready(function () {
                 marcheazaValid("nume-magazin", "err-magazin");
             }
         }
-
+        /// COMENTAT PT VULNERABILITATE
         var avatarInput = document.getElementById("avatar");
         if (avatarInput && avatarInput.files.length > 0) {
             var fisier = avatarInput.files[0];
@@ -210,6 +210,7 @@ $(document).ready(function () {
             marcheazaValid("avatar", "err-avatar");
         }
 
+        marcheazaValid("avatar", "err-avatar");
         var termeni = $("#termeni").is(":checked");
         if (!termeni) {
             $("#err-termeni").addClass("vizibil");

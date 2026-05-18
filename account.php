@@ -41,6 +41,10 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['login_captcha_answer'])) {
     $_SESSION['login_captcha_answer'] = (string)($captcha_a + $captcha_b);
 }
 
+if (!empty($_SESSION['user_id']) && empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $current_user = null;
 if (!empty($_SESSION['user_id'])) {
     try {
@@ -338,9 +342,37 @@ if (!empty($_SESSION['user_id'])) {
             </div>
         </div>
 
-        <p><strong>Bio:</strong> <?php echo e($current_user['bio'] ?: 'Nu ai completat inca un bio.'); ?></p>
+        <p><strong>Bio:</strong>
+            <?php
+            /*
+             * VULNERABLE VERSION - Stored XSS demo only.
+             * Do not enable this code on the public server.
+             *
+             * Exploit payload for Bio:
+             * <script>alert('XSS')</script>
+             */
+//            echo $current_user['bio'] ?: 'Nu ai completat inca un bio.';
+
+
+
+            // SECURE VERSION - active code. Escapes user-controlled content before rendering it in HTML.
+            echo e($current_user['bio'] ?: 'Nu ai completat inca un bio.');
+            ?>
+        </p>
 
         <form method="post" action="update_profile.php">
+            <?php
+            /*
+             * VULNERABLE VERSION - CSRF demo only.
+             * Do not enable this variant on the public server.
+             *
+             * The old form had no CSRF token, so another page could submit a
+             * forged POST request to update_profile.php using the logged-in
+             * user's session cookie.
+             */
+            ?>
+            <!-- SECURE VERSION - active code. The backend rejects profile updates without this token. -->
+            <input type="hidden" name="csrf_token" value="<?php echo e($_SESSION['csrf_token']); ?>">
             <fieldset>
                 <legend>Editeaza profil</legend>
 

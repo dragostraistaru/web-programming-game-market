@@ -7,6 +7,25 @@ if (empty($_SESSION['user_id'])) {
     exit;
 }
 
+/*
+ * VULNERABLE VERSION - CSRF demo only.
+ * Do not enable this variant on the public server.
+ *
+ * The old endpoint accepted any POST request from a logged-in browser without
+ * checking whether the request came from the real profile form.
+ */
+
+// SECURE VERSION - active code. Require the per-session CSRF token from account.php.
+$csrfToken = $_POST['csrf_token'] ?? '';
+if (
+    empty($_SESSION['csrf_token']) ||
+    !is_string($csrfToken) ||
+    !hash_equals($_SESSION['csrf_token'], $csrfToken)
+) {
+    header('Location: account.php?profile_error=' . urlencode('Cerere invalida CSRF.'));
+    exit;
+}
+
 $email = trim($_POST['email'] ?? '');
 $bio = trim($_POST['bio'] ?? '');
 $role = $_POST['role'] ?? 'cumparator';

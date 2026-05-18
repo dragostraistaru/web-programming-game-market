@@ -32,6 +32,26 @@ if (!empty($_FILES['avatar']) && $_FILES['avatar']['error'] !== UPLOAD_ERR_NO_FI
     if ($f['error'] !== UPLOAD_ERR_OK) {
         $errors[] = 'Eroare la încărcarea fișierului.';
     } else {
+        /*
+         * VULNERABLE VERSION - Unrestricted File Upload demo only.
+         * Do not enable this code on the public server.
+         *
+         * This variant accepts any uploaded file, keeps the original filename
+         * and stores it in a public directory. A PHP file uploaded as avatar
+         * could then be accessed directly from /uploads/avatars/.
+         */
+//          $destDir = __DIR__ . '/uploads/avatars';
+//          if (!is_dir($destDir)) mkdir($destDir, 0755, true);
+//          $fname = basename($f['name']);
+//          $dest = $destDir . '/' . $fname;
+//          if (!move_uploaded_file($f['tmp_name'], $dest)) {
+//              $errors[] = 'Nu s-a putut salva fisierul.';
+//          } else {
+//              $avatar_path = 'uploads/avatars/' . $fname;
+//          }
+
+
+        // SECURE VERSION - active code. Allows only real image MIME types and generates a safe filename.
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime = finfo_file($finfo, $f['tmp_name']);
         finfo_close($finfo);

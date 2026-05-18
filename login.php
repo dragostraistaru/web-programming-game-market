@@ -29,20 +29,54 @@ if ($captcha === '' || !isset($_SESSION['login_captcha_answer']) || !hash_equals
 
 try {
     $mysqli = get_mysqli();
-    $stmt = $mysqli->prepare('SELECT id, username, password_hash, role FROM users WHERE email = ? LIMIT 1');
-    if (!$stmt) throw new RuntimeException('Eroare DB prepare');
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    $stmt->close();
 
-    if (!$user || !password_verify($password, $user['password_hash'])) {
+    /*
+     * VULNERABLE VERSION - SQL Injection demo only.
+     * Do not enable this code on the public server.
+     *
+     * Exploit payload for login_email:
+     * ' OR '1'='1' --
+     *
+     * With that payload, the query becomes true for the first user found and
+     * the password check is bypassed because this vulnerable variant trusts the
+     * returned row directly.
+     */
+      $sql = "SELECT id, username, password_hash, role FROM users
+              WHERE email = '$email' AND password_hash = '$password'
+              LIMIT 1";
+      $result = $mysqli->query($sql);
+      if (!$result) {
+          throw new RuntimeException('Eroare DB query');
+      }
+      $user = $result->fetch_assoc();
+
+
+    if (!$user) {
         unset($_SESSION['login_captcha_question'], $_SESSION['login_captcha_answer']);
         $msg = 'Email sau parolă incorectă.';
         header('Location: account.php?login_error=' . urlencode($msg) . '&login_email=' . urlencode($email));
         exit;
     }
+
+
+
+    // SECURE VERSION - active code. Uses prepared statements and verifies the password hash.
+//    $stmt = $mysqli->prepare('SELECT id, username, password_hash, role FROM users WHERE email = ? LIMIT 1');
+//    if (!$stmt) throw new RuntimeException('Eroare DB prepare');
+//    $stmt->bind_param('s', $email);
+//    $stmt->execute();
+//    $result = $stmt->get_result();
+//    $user = $result->fetch_assoc();
+//    $stmt->close();
+//
+//    if (!$user || !password_verify($password, $user['password_hash'])) {
+//        unset($_SESSION['login_captcha_question'], $_SESSION['login_captcha_answer']);
+//        $msg = 'Email sau parolă incorectă.';
+//        header('Location: account.php?login_error=' . urlencode($msg) . '&login_email=' . urlencode($email));
+//        exit;
+//    }
+
+
 
     // login OK
     session_regenerate_id(true);
