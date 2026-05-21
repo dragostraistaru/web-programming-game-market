@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameMarket - Dashboard</title>
+
+    <link rel="stylesheet" href="style3.css">
+    <style>
+        :root {
+            --card-bg: #1a1a2e;
+            --card-border: #2e2e4e;
+            --success: #2d6a4f;
+            --warning: #e07c24;
+            --danger: #c1121f;
+            --info: #0077b6;
+        }
+
+        .card-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 16px 0 24px;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 16px 0 24px;
+        }
+
+        .titlu-sectiune {
+            font-weight: bold;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8em;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-widget {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            flex: 1;
+            min-width: 130px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+        }
+
+        .stat-widget:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-widget::before {
+            content: "";
+            display: block;
+            width: 36px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px;
+            margin: 0 auto 14px;
+        }
+
+        .stat-widget.stat-success::before { background-color: #52b788; }
+        .stat-widget.stat-warning::before { background-color: var(--warning); }
+        .stat-widget.stat-info::before { background-color: var(--info); }
+
+        .stat-numar {
+            display: block;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: var(--text);
+            font-family: Arial, sans-serif;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.75em;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            width: 260px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            background-color: #243042;
+            color: var(--text);
+            padding: 12px 16px;
+            font-weight: bold;
+            font-size: 0.92em;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-header::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .card-success .card-header { background-color: var(--success); }
+        .card-success .card-header::before { background-color: #95d5b2; }
+
+        .card-warning .card-header { background-color: var(--warning); }
+        .card-warning .card-header::before { background-color: #ffd166; }
+
+        .card-danger .card-header { background-color: var(--danger); }
+        .card-danger .card-header::before { background-color: #ffb3b3; }
+
+        .card-info .card-header { background-color: var(--info); }
+        .card-info .card-header::before { background-color: #90e0ef; }
+
+        .card-body {
+            padding: 16px;
+            flex: 1;
+            color: var(--muted);
+            font-size: 0.88em;
+            line-height: 1.7;
+        }
+
+        .card-body p {
+            margin-bottom: 6px;
+            color: var(--muted);
+        }
+
+        .card-body strong {
+            color: var(--text);
+        }
+
+        .card-footer {
+            padding: 10px 16px;
+            border-top: 1px solid var(--card-border);
+            font-size: 0.78em;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-footer::after {
+            content: "→";
+            color: var(--accent);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.72em;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+        }
+
+        .badge-ok { background-color: #1a3d2e; color: #52b788; }
+        .badge-redus { background-color: #3d2a00; color: #ffd166; }
+        .badge-urgent { background-color: #3d0a0a; color: #ff6b6b; }
+        .badge-closed { background-color: #1a2a3d; color: #90e0ef; }
+
+        .pret {
+            font-size: 1.25em;
+            font-weight: bold;
+            color: var(--accent);
+            font-family: Arial, sans-serif;
+        }
+
+        .rating {
+            color: #f4a261;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>GameMarket</h1>
+<h2>Dashboard</h2>
+
+<p>
+    <b>Bun venit!</b> Vezi statisticile, jocurile disponibile si topicurile active.
+    <br>
+    <span title="Info">Toate datele sunt actualizate in timp real.</span>
+</p>
+
+<div class="main-menu">
+    <a href="forum.php" id="homeLink" target="_self" title="Home">Home</a>
+    &nbsp;|&nbsp;
+    <a href="forum.php" id="forumLink" target="_self" title="Forum">Forum</a>
+    &nbsp;|&nbsp;
+    <a href="listing.php" id="listingLink" target="_blank" title="Games">Games &amp; Deals</a>
+    &nbsp;|&nbsp;
+    <a href="sprites.php" id="spritesLink" target="_self" title="Navigare">Navigare</a>
+    &nbsp;|&nbsp;
+    <a href="account.php" id="accountLink" target="_self" title="Cont">Cont</a>
+</div>
+
+<img
+        src="images/logo.png"
+        width="200"
+        height="80"
+        alt="GameMarket Logo"
+        title="GameMarket - official logo">
+
+<p class="titlu-sectiune">Statistici</p>
+
+<div class="stat-row">
+    <div class="stat-widget">
+        <span class="stat-numar">1,247</span>
+        <span class="stat-label">Topicuri</span>
+    </div>
+    <div class="stat-widget stat-success">
+        <span class="stat-numar">892</span>
+        <span class="stat-label">Utilizatori</span>
+    </div>
+    <div class="stat-widget stat-warning">
+        <span class="stat-numar">38</span>
+        <span class="stat-label">Raspunsuri azi</span>
+    </div>
+    <div class="stat-widget stat-info">
+        <span class="stat-numar">14</span>
+        <span class="stat-label">Online acum</span>
+    </div>
+    <div class="stat-widget">
+        <span class="stat-numar">326</span>
+        <span class="stat-label">Jocuri</span>
+    </div>
+</div>
+
+<p class="titlu-sectiune">Jocuri Recomandate</p>
+
+<div class="card-grid">
+    <div class="card card-success">
+        <div class="card-header">Elden Ring</div>
+        <div class="card-body">
+            <p><span title="Developer">FromSoftware</span></p>
+            <p><strong>Gen:</strong> RPG / Action</p>
+            <p><strong>Platform:</strong> Steam &nbsp; <strong>Region:</strong> Global</p>
+            <p class="pret">89.99 RON</p>
+            <p>
+                <span class="rating">★★★★★</span>
+                &nbsp;
+                <span class="badge badge-ok">Disponibil</span>
+            </p>
+        </div>
+        <div class="card-footer"><span>TopKeys_RO</span></div>
+    </div>
+
+    <div class="card card-warning">
+        <div class="card-header">Cyberpunk 2077</div>
+        <div class="card-body">
+            <p><span title="Developer">CD Projekt Red</span></p>
+            <p><strong>Gen:</strong> RPG / Open World</p>
+            <p><strong>Platform:</strong> Steam &nbsp; <strong>Region:</strong> EU</p>
+            <p class="pret">59.99 RON</p>
+            <p>
+                <span class="rating">★★★★☆</span>
+                &nbsp;
+                <span class="badge badge-redus">Stoc redus</span>
+            </p>
+        </div>
+        <div class="card-footer"><span>GameDeals24</span></div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">FIFA 25</div>
+        <div class="card-body">
+            <p><span title="Developer">EA Sports</span></p>
+            <p><strong>Gen:</strong> Sports</p>
+            <p><strong>Platform:</strong> EA App &nbsp; <strong>Region:</strong> Global</p>
+            <p class="pret">149.99 RON</p>
+            <p>
+                <span class="rating">★★★☆☆</span>
+                &nbsp;
+                <span class="badge badge-ok">Disponibil</span>
+            </p>
+        </div>
+        <div class="card-footer"><span>KeysMarket</span></div>
+    </div>
+
+    <div class="card card-info">
+        <div class="card-header">The Witcher 3</div>
+        <div class="card-body">
+            <p><span title="Developer">CD Projekt Red</span></p>
+            <p><strong>Gen:</strong> RPG</p>
+            <p><strong>Platform:</strong> GOG &nbsp; <strong>Region:</strong> Global</p>
+            <p class="pret">39.99 RON</p>
+            <p>
+                <span class="rating">★★★★★</span>
+                &nbsp;
+                <span class="badge badge-ok">Disponibil</span>
+            </p>
+        </div>
+        <div class="card-footer"><span>GOGstore</span></div>
+    </div>
+</div>
+
+<p class="titlu-sectiune">Topicuri Active Forum</p>
+
+<div class="card-grid">
+    <div class="card card-danger">
+        <div class="card-header">Seller sent already-used key</div>
+        <div class="card-body">
+            <p><span title="Summary">Key was already redeemed by someone else.</span></p>
+            <p><strong>Autor:</strong> alex_ro &nbsp; <strong>Raspunsuri:</strong> 12</p>
+            <p><strong>Platform:</strong> Epic Games &nbsp; <strong>Region:</strong> RO</p>
+            <p><span class="badge badge-urgent">URGENT</span></p>
+        </div>
+        <div class="card-footer"><span>Postat azi</span></div>
+    </div>
+
+    <div class="card card-info">
+        <div class="card-header">Invalid Steam key - ce fac?</div>
+        <div class="card-body">
+            <p><span title="Summary">Am primit o eroare la activare.</span></p>
+            <p><strong>Autor:</strong> ion_pop &nbsp; <strong>Raspunsuri:</strong> 7</p>
+            <p><strong>Platform:</strong> Steam &nbsp; <strong>Region:</strong> EU</p>
+            <p><span class="badge badge-redus">Open</span></p>
+        </div>
+        <div class="card-footer"><span>Ieri, 18:45</span></div>
+    </div>
+
+    <div class="card card-success">
+        <div class="card-header">Weekend promo codes</div>
+        <div class="card-body">
+            <p><span title="Summary">Are the discount codes working?</span></p>
+            <p><strong>Autor:</strong> gabi_ro &nbsp; <strong>Raspunsuri:</strong> 5</p>
+            <p><strong>Categorie:</strong> General</p>
+            <p><span class="badge badge-closed">Rezolvat</span></p>
+        </div>
+        <div class="card-footer"><span>Azi, 14:32</span></div>
+    </div>
+</div>
+
+<!-- MODIFICAT: cerinta 4a -->
+<p class="titlu-sectiune">Catalog sortabil</p>
+
+<div class="table-wrap">
+    <table id="gamesTable">
+        <thead>
+        <tr>
+            <th data-column="title">Titlu joc</th>
+            <th data-column="platform">Platformă</th>
+            <th data-column="price">Preț</th>
+            <th data-column="rating">Rating</th>
+        </tr>
+        </thead>
+        <tbody id="gamesTableBody">
+        </tbody>
+    </table>
+</div>
+
+<p class="titlu-sectiune">Catalog sortabil - Tabel Vertical</p>
+
+<div class="table-wrap">
+    <table id="gamesTableVertical">
+        <tbody id="gamesTableVerticalBody">
+        </tbody>
+    </table>
+</div>
+
+<p class="titlu-sectiune">Catalog secundar - Tabel alternativ (exemple event handlers)</p>
+
+<div class="table-wrap">
+    <table id="gamesTableAlt">
+        <thead>
+        <tr>
+            <th data-column="title">Titlu joc</th>
+            <th data-column="platform">Platformă</th>
+            <th data-column="price">Preț</th>
+            <th data-column="rating">Rating</th>
+        </tr>
+        </thead>
+        <tbody id="gamesTableAltBody">
+        </tbody>
+    </table>
+</div>
+
+
+<br>
+<h3 title="Footer">GameMarket 2026 &mdash; Dashboard</h3>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="game-data.js"></script>
+<script src="table-sort.js"></script>
+
+</body>
+</html>

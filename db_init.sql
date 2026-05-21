@@ -1,5 +1,6 @@
--- DB initialization for GameMarket application
--- Run this in phpMyAdmin or mysql CLI to create the database and users table
+-- Deprecated MySQL initialization for GameMarket application.
+-- The application now uses SQLite through PDO.
+-- Use db_init_sqlite.sql or let config/pdo.php create the SQLite schema automatically.
 
 CREATE DATABASE IF NOT EXISTS `jocuri_app` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `jocuri_app`;

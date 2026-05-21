@@ -187,6 +187,7 @@ $(document).ready(function () {
                 marcheazaValid("nume-magazin", "err-magazin");
             }
         }
+        //ASTA TREBUIE SA COMENTEZ
         var avatarInput = document.getElementById("avatar");
         if (avatarInput && avatarInput.files.length > 0) {
             var fisier = avatarInput.files[0];

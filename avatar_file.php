@@ -19,18 +19,18 @@ if ($file === '') {
  *
  * This variant concatenates user input directly into a filesystem path. The
  * ../ sequences can escape uploads/avatars and read files from the project.
- *
- * $path = __DIR__ . '/uploads/avatars/' . $file;
- * if (!is_file($path)) {
- *     http_response_code(404);
- *     header('Content-Type: text/plain; charset=UTF-8');
- *     echo 'Fisier negasit.';
- *     exit;
- * }
- * header('Content-Type: text/plain; charset=UTF-8');
- * readfile($path);
- * exit;
  */
+//  $path = __DIR__ . '/uploads/avatars/' . $file;
+//  if (!is_file($path)) {
+//      http_response_code(404);
+//      header('Content-Type: text/plain; charset=UTF-8');
+//      echo 'Fisier negasit.';
+//      exit;
+//  }
+//  header('Content-Type: text/plain; charset=UTF-8');
+//  readfile($path);
+//  exit;
+
 
 // SECURE VERSION - active code. Resolve the path and require it to stay inside uploads/avatars.
 $baseDir = realpath(__DIR__ . '/uploads/avatars');
